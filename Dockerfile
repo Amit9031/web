@@ -4,6 +4,6 @@ WORKDIR /usr/share/nginx/html
 
 COPY index.html .
 
-EXPOSE 70
+EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
