@@ -1,7 +1,7 @@
 pipeline {
 agent any
 
-```
+
 environment {
     IMAGE_NAME = "web"
     IMAGE_TAG = "latest"
@@ -17,27 +17,27 @@ stages {
         }
     }
 
-    stage('Build Docker Image') {
+    stage('Build') {
         steps {
-            sh 'docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .'
+            sh 'docker build -t web:latest .'
         }
     }
 
-    stage('Deploy Container') {
+    stage('Deploy') {
         steps {
             sh '''
-            docker stop ${CONTAINER_NAME} || true
-            docker rm ${CONTAINER_NAME} || true
+            docker stop web || true
+            docker rm web || true
 
             docker run -d \
-                --name ${CONTAINER_NAME} \
+                --name web \
                 -p 1010:80 \
-                ${IMAGE_NAME}:${IMAGE_TAG}
+                web:latest
             '''
         }
     }
 
-    stage('Verify Deployment') {
+    stage('Verify') {
         steps {
             sh 'docker ps'
         }
@@ -46,12 +46,13 @@ stages {
 
 post {
     success {
-        echo 'Application deployed successfully!'
+        echo 'Deployment Successful!'
     }
 
     failure {
-        echo 'Pipeline failed!'
+        echo 'Deployment Failed!'
     }
 }
+
 
 }
