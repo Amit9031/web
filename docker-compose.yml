@@ -1,0 +1,9 @@
+service:
+web:
+build:
+container_name: web
+ports:
+- "1010:80"
+environment:
+- NGINX_HOST=web
+- NGINX_PORT=80
